@@ -1,0 +1,33 @@
+wiim-el: Emacs Lisp wmiirc script
+
+The name says it all, this program puts Emacs in charge of wmii,
+allowing elisp-based configuration and manipulation.
+
+The code reflects the quick and dirty development process and will be
+subject to many changes. It works as-is though.
+
+To use it put wmii.el somewhere in the load-path and add something
+like the following to init.el:
+
+(require 'wmii)
+(setq wmii-focus-colors (wmii-color-tuple "ghost white" "SlateGray4" "gray50"))
+(setq wmii-normal-colors (wmii-color-tuple "SlateGray4" "ghost white" "gray70"))
+(setq wmii-font "-xos4-terminus-medium-r-normal--16-*-72-72-c-80-iso10646-1")
+(setq wmmi-term "urxvt")
+(wmii-xwrite "/ctl" "bar on top")
+(wmii-init)
+
+Only the first and last lines are fundamental (and the loading process
+will also change one of this days).
+
+On wmii's end it is necessary to prevent it from loading the default
+shell-based wmiirc. This can be acomplished by launching it with the
+"-r" flag, e.g.
+
+wmii -r ~/.wmii/wmiirc_emacs
+
+A sample wmiirc_emacs is also included, which merely starts emacs (the
+initialisation is done *after* emacs is running, in init.el as per
+above). This is merely an example and more elaborate starting
+strategies are possible (e.g. using emacsclient, running emacs in
+batch mode, etc).
