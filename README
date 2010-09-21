@@ -1,4 +1,4 @@
-wiim-el: Emacs Lisp wmiirc script
+wmii-el: Emacs Lisp wmiirc script
 
 The name says it all, this program puts Emacs in charge of wmii,
 allowing elisp-based configuration and manipulation.
