@@ -31,3 +31,38 @@ initialisation is done *after* emacs is running, in init.el as per
 above). This is merely an example and more elaborate starting
 strategies are possible (e.g. using emacsclient, running emacs in
 batch mode, etc).
+
+The default keybindings are probably less than ideal for most Emacs
+users since I opted to use the arrow-keys for client movement (I
+prefer it that way). There is as of yet no easy way to change the
+modifier key (apart from redefining the keybindings alist, which is
+the preferred way to customise it) and all keybindings use Mod4.
+
+The keybindings can be seen in wmii.el, but a quick description of the
+most used commands:
+
+Mod4-<arrow key>: select client to the right/left/up/down
+Mod4-Shift-<arrow key>: move client to the right/left/up/down
+Mod4-s: stacked column mode
+Mod4-m: max column mode
+Mod4-d: default column mode
+Mod4-f: toggle fullscreen
+Mod4-Enter: launch X terminal
+Mod4-Space: toggle between managed and floating layers views
+Mod4-Shift-Space: move client between managed and floating layers
+Mod4-x: invoke wimenu to launch a program
+Mod4-Shift-x:  (experimental) invoke a elisp function
+Mod4-(0 1 2 3 4 5 6 7 8 9): change to numbered view
+Mod4-Shift-(0 1 2 3 4 5 6 7 8 9): retag client with numbered tag
+Mod4-t: prompt and change to view
+Mod4-Shift-t: prompt and retag client
+
+The initial version is quite comparable in funcionality with the
+default wmiirc. A lot can be done to improve it though, namely by the
+ability to define functions to handle specific events (either directly
+or via hooks) and by using the provided primitives to create more
+complex functionality.
+
+The interface with wmii uses the "wmiir" executable: while it is
+possible (and code-wise cleaner) to mount the 9p filesystem that isn't
+an option in all the architectures.
