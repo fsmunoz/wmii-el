@@ -86,7 +86,7 @@
   (shell-command-to-string (format "wmiir xwrite %s %s" file contents)))
 
 (defun wmii-write (file contents)
-  (let ((wmiir (start-process "wmiir" nil "wmiir" "write" "/keys"))
+  (let ((wmiir (start-process "wmiir" nil "wmiir" "write" file))
         (content-lines (combine-and-quote-strings contents "\n")))
     (process-send-string wmiir content-lines)
     ;; For some reason two are needed or the process doesn't exit
