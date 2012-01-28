@@ -1,4 +1,4 @@
-;; wmii.el - elisp controller for the wmii window-manager
+;;; wmii.el --- elisp controller for the wmii window-manager
 ;;
 ;;  Copyright (C) 2010 Frederico Muñoz <fsmunoz@gmail.com>
 ;;
@@ -18,6 +18,7 @@
 ;;     MA 02111-1307, USA.
 
 
+;;; Code:
 
 (provide 'wmii)
 
