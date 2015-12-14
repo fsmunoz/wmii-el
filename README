@@ -1,68 +1,165 @@
-wmii-el: Emacs Lisp wmiirc script
+Frederico Muñoz
 
-The name says it all, this program puts Emacs in charge of wmii,
-allowing elisp-based configuration and manipulation.
 
-The code reflects the quick and dirty development process and will be
-subject to many changes. It works as-is though.
+Table of Contents
+_________________
 
-To use it put wmii.el somewhere in the load-path and add something
-like the following to init.el:
+1 Description
+2 Why wmii?
+3 Why wmii with Emacs Lisp?
+4 How to use it
+5 Keybinding
+6 What's included
+7 Interfacing with wmii
 
-(require 'wmii)
-(setq wmii-focus-colors (wmii-color-tuple "ghost white" "SlateGray4" "gray50"))
-(setq wmii-normal-colors (wmii-color-tuple "SlateGray4" "ghost white" "gray70"))
-(setq wmii-font "-xos4-terminus-medium-r-normal--16-*-72-72-c-80-iso10646-1")
-(setq wmmi-term "urxvt")
-(wmii-xwrite "/ctl" "bar on top")
-(wmii-init)
 
-Only the first and last lines are fundamental (and the loading process
-will also change one of this days).
+1 Description
+=============
 
-On wmii's end it is necessary to prevent it from loading the default
-shell-based wmiirc. This can be acomplished by launching it with the
-"-r" flag, e.g.
+  The name says it all, this program puts Emacs in charge of wmii,
+  allowing elisp-based configuration and manipulation. This makes wmii
+  completely configurable via Emacs Lisp and also allows for
+  incorporation of Emacs functionality in wmii - for example, the
+  default function for date and time uses (current-time)
 
-wmii -r ~/.wmii/wmiirc_emacs
+  The code reflects the quick and dirty development process and will be
+  subject to many changes. It works as-is though.
 
-A sample wmiirc_emacs is also included, which merely starts emacs (the
-initialisation is done *after* emacs is running, in init.el as per
-above). This is merely an example and more elaborate starting
-strategies are possible (e.g. using emacsclient, running emacs in
-batch mode, etc).
+  Here's a screenshot of wmii with wmii-el in action:
 
-The default keybindings are probably less than ideal for most Emacs
-users since I opted to use the arrow-keys for client movement (I
-prefer it that way). There is as of yet no easy way to change the
-modifier key (apart from redefining the keybindings alist, which is
-the preferred way to customise it) and all keybindings use Mod4.
+  [[file:./images/wmii-el_th.png]]
 
-The keybindings can be seen in wmii.el, but a quick description of the
-most used commands:
+  Everything in it is costumisable of course, the main difference being
+  that with wmii-el one can do it using Emacs Lisp.
 
-Mod4-<arrow key>: select client to the right/left/up/down
-Mod4-Shift-<arrow key>: move client to the right/left/up/down
-Mod4-s: stacked column mode
-Mod4-m: max column mode
-Mod4-d: default column mode
-Mod4-f: toggle fullscreen
-Mod4-Enter: launch X terminal
-Mod4-Space: toggle between managed and floating layers views
-Mod4-Shift-Space: move client between managed and floating layers
-Mod4-x: invoke wimenu to launch a program
-Mod4-Shift-x:  (experimental) invoke a elisp function
-Mod4-(0 1 2 3 4 5 6 7 8 9): change to numbered view
-Mod4-Shift-(0 1 2 3 4 5 6 7 8 9): retag client with numbered tag
-Mod4-t: prompt and change to view
-Mod4-Shift-t: prompt and retag client
 
-The initial version is quite comparable in funcionality with the
-default wmiirc. A lot can be done to improve it though, namely by the
-ability to define functions to handle specific events (either directly
-or via hooks) and by using the provided primitives to create more
-complex functionality.
+  [[file:./images/wmii-el_th.png]] file:./images/wmii-el.png
 
-The interface with wmii uses the "wmiir" executable: while it is
-possible (and code-wise cleaner) to mount the 9p filesystem that isn't
-an option in all the architectures.
+
+2 Why wmii?
+===========
+
+  There is no shortage of tilling window managers nowadays; since wmii
+  development has (apparently) stalled why should one care?
+
+  The answer is bound to be different for everyone, but for me:
+
+  - The dynamic tilling model of wmii hits the sweetspot between being
+    restricted to some predefined layouts and allowing all sorts of
+    partitioning
+
+  - The way it is configured is something I personally find attractive:
+    via reading and writing to files, using the 9P protocol. This makes
+    it easy to integrate with everything.
+
+  - While "minimal" by most standards it comes with enough functionality
+    to do without external applications (including some useful tools
+    like wimenu)
+
+  - It draws titlebars in windows. For some this is uneeded, for me it
+    makes it aesthetically pleasing in managed mode and essential in
+    unmanaged (floating) mode
+
+  - The code itself is compact and has, with minor upkeep, withstood the
+    passage of years.
+
+  This version of wmii-el works with the latest wmii code available at
+  [https://code.google.com/p/wmii] ; this is important because there was
+  a change in the format of wmii files and this version will not work
+  with wmii versions which use the old-style formats.
+
+
+3 Why wmii with Emacs Lisp?
+===========================
+
+  For those using Emacs stumpwm, a Common Lisp window manager, is a
+  popular choice (in the real of minimalist window managers, of course,
+  since most Emacs users use more mainstream window managers or systems
+  where the concept doesn't exist). Using Emacs with wmii is a different
+  approach, one that is obviously less Lisp-like in terms of the core
+  components (e.g. there is no REPL for the wmii binary) but on the
+  other hand tries to make it almost transparent to use from Emacs and
+  Emacs Lisp: after loading wmii all aspects of it are exposed and
+  changed directly in Emacs. Note that this comes with a price: there is
+  plenty that now depends on Emacs, but in my years using this my
+  experience has bee very good.
+
+
+4 How to use it
+===============
+
+  Put `wmii.el' somewhere in the load-path and add something like the
+  following to init.el:
+
+  #+begin_2src emacs-lisp (require 'wmii) (setq wmii-focus-colors
+  (wmii-color-tuple "ghost white" "SlateGray4" "gray50")) (setq
+  wmii-normal-colors (wmii-color-tuple "SlateGray4" "ghost white"
+  "gray70")) (setq wmii-font
+  "-xos4-terminus-medium-r-normal--16-*-72-72-c-80-iso10646-1") (setq
+  wmmi-term "urxvt") (wmii-xwrite "/ctl" "bar on top") (wmii-init)
+  #+end_src
+
+  Only the first and last lines are fundamental; note that a
+  substantially more extensive init file is included, albeit not loaded
+  by default. Copying that file to `~/.emacs.d' and loading it is a good
+  way to start modifying it.
+
+  On wmii's end it is necessary to prevent it from loading the default
+  shell-based wmiirc. This can be acomplished by launching it with the
+  "-r" flag, e.g.
+
+  `wmii -r ~/.wmii/wmiirc_emacs'
+
+  A sample `wmiirc_emacs' is also included, which merely starts emacs
+  (the initialisation is done *after* emacs is running, in init.el as
+  per above). This is merely an example and more elaborate starting
+  strategies are possible (e.g. using emacsclient, running emacs in
+  batch mode, etc).
+
+
+5 Keybinding
+============
+
+  The default keybindings are probably less than ideal for most Emacs
+  users since I opted to use the arrow-keys for client movement (I
+  prefer it that way). Changing them is however just a matter or
+  redefining wmii-key-action-alist and evaluate (wmii-add-keybindings)
+
+  The keybindings can be seen in wmii.el, but a quick description of the
+  most used commands:
+
+  - Mod4-<arrow key>: select client to the right/left/up/down
+  - Mod4-Shift-<arrow key>: move client to the right/left/up/down
+  - Mod4-s: stacked column mode
+  - Mod4-m: max column mode
+  - Mod4-d: default column mode
+  - Mod4-f: toggle fullscreen
+  - Mod4-Enter: launch X terminal
+  - Mod4-Space: toggle between managed and floating layers views
+  - Mod4-Shift-Space: move client between managed and floating layers
+  - Mod4-x: invoke wimenu to launch a program
+  - Mod4-Shift-x: (experimental) invoke a elisp function
+  - Mod4-(0 1 2 3 4 5 6 7 8 9): change to numbered view
+  - Mod4-Shift-(0 1 2 3 4 5 6 7 8 9): retag client with numbered tag
+  - Mod4-t: prompt and change to view
+  - Mod4-Shift-t: prompt and retag client
+
+
+6 What's included
+=================
+
+  This version is quite comparable in funcionality with the default
+  wmiirc. A lot can be done to improve it though, namely by the ability
+  to define functions to handle specific events (either directly or via
+  hooks) and by using the provided primitives to create more complex
+  functionality. Some examples are already included in the wmiicfg.el
+  file.
+
+
+7 Interfacing with wmii
+=======================
+
+  The interface with wmii uses the "wmiir" executable: while it is
+  possible (and code-wise cleaner) to mount the 9p filesystem that isn't
+  an option in all the architectures. In the future it would be
+  interesting to allow for both options.
