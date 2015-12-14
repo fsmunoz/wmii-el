@@ -1,6 +1,5 @@
 [[./images/wmii-el-logo.png]]
 
-
 * Description
 
 The name says it all, this program puts Emacs in charge of wmii,
@@ -14,7 +13,7 @@ subject to many changes. It works as-is though.
 
 Here's a screenshot of wmii with wmii-el in action:
 
-[[file:./images/wmii-el.png][file:./images/wmii-el_th.png]]
+[[https://raw.githubusercontent.com/fsmunoz/wmii-el/master/images/wmii-el.png][file:./images/wmii-el_th.png]]
 
 Everything in it is costumisable of course, the main difference being
 that with wmii-el one can do it using Emacs Lisp.
