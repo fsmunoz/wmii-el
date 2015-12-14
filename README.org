@@ -1,3 +1,6 @@
+[[./images/wmii-el-logo.png]]
+
+
 * Description
 
 The name says it all, this program puts Emacs in charge of wmii,
@@ -134,3 +137,7 @@ The interface with wmii uses the "wmiir" executable: while it is
 possible (and code-wise cleaner) to mount the 9p filesystem that isn't
 an option in all the architectures. In the future it would be
 interesting to allow for both options.
+* Other matters
+
+The wmii logo used is part of the wmii distribution.
+
